@@ -45,6 +45,13 @@
       from { box-shadow: 0 0 5px #00ffcc; }
       to { box-shadow: 0 0 20px #00ffcc; }
     }
+
+    #footer {
+      display: none;
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 1px solid #333;
+    }
   </style>
 </head>
 
@@ -53,15 +60,13 @@
 <h1>I.T.D.H 🔥</h1>
 <p>Insight Trend Data Hub – Turn trends into money 💰</p>
 
-<!-- AUTH CARD -->
+<!-- AUTH -->
 <div class="card">
-
 <h2>Welcome 🔐</h2>
 
 <button onclick="showSignup()">Create Account</button>
 <button onclick="showLogin()">Sign In</button>
 
-<!-- SIGNUP -->
 <div id="signupBox" style="display:none;">
   <h3>Create Account</h3>
   <input type="text" id="signupUsername" placeholder="Username"><br>
@@ -70,14 +75,12 @@
   <button onclick="signup()">Create Account 🚀</button>
 </div>
 
-<!-- LOGIN -->
 <div id="loginBox" style="display:none;">
   <h3>Sign In</h3>
   <input type="email" id="loginEmail" placeholder="Email"><br>
   <input type="password" id="loginPassword" placeholder="Password"><br>
   <button onclick="login()">Sign In 🔐</button>
 </div>
-
 </div>
 
 <h2>Products 💰</h2>
@@ -112,6 +115,14 @@
 <div id="orders"></div>
 </div>
 
+<!-- FOOTER -->
+<div id="footer">
+  <p>🚀 Contribute to I.T.D.H</p>
+  <button onclick="openGitHub()" style="background:#00ffcc; padding:10px 20px; border-radius:10px;">
+    Create Pull Request 🔥
+  </button>
+</div>
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyDDHVEWDLn75skPgf5oFZ7pkYzZMBKmX6U",
@@ -123,7 +134,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// UI SWITCH
+// SWITCH UI
 function showSignup() {
   signupBox.style.display = "block";
   loginBox.style.display = "none";
@@ -203,15 +214,25 @@ function loadOrders() {
     });
 }
 
-// BUTTON UPDATE
+// GITHUB BUTTON
+function openGitHub() {
+  window.open("https://github.com/YOUR-USERNAME/YOUR-REPO/compare", "_blank");
+}
+
+// AUTH STATE
 auth.onAuthStateChanged(user => {
   document.querySelectorAll(".buy-btn").forEach(btn => {
     btn.innerText = user ? "Buy Now 💰" : "Login to Buy 🔐";
   });
 
-  if(user) loadOrders();
+  if (user) {
+    document.getElementById("footer").style.display = "block";
+    loadOrders();
+  } else {
+    document.getElementById("footer").style.display = "none";
+  }
 });
 </script>
 
 </body>
-  </html>
+</html>
